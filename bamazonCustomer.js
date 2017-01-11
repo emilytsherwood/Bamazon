@@ -19,6 +19,7 @@ connection.connect(function(err) {
   console.log("connected as id " + connection.threadId);
 });
 
+//Inserting items into MySQL database
 connection.query("INSERT INTO products SET ?", {
 	item_id: 2001,
 	product_name: "Blue Basket",
@@ -98,3 +99,10 @@ connection.query("INSERT INTO products SET ?", {
 	price: 250.00,
 	stock_quantity: 5
 }, function (err, res) {});
+
+//Displaying all of the items available for sale (ids, nmes, prices and products)
+connection.query("SELECT * FROM products", function(err, rows) {
+	if(err) throw err;
+	console.log("Items for sale:\n");
+	console.log(rows);
+});
