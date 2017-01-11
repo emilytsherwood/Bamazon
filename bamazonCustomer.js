@@ -106,3 +106,19 @@ connection.query("SELECT * FROM products", function(err, rows) {
 	console.log("Items for sale:\n");
 	console.log(rows);
 });
+
+var startBuy = function() {
+  inquirer.prompt({
+    name: "id",
+    type: "list",
+    message: "What is the ID number of the product you want to buy?",
+    choices: ["1003", "1004", "1300", "1303", "2001", "3000", "5002", "6161", "80002", "81134"]
+   },
+   {
+   	name: "units",
+   	type: "input",
+   	message: "How many would you like to order?"
+   }).then(function(answer) {
+
+    });
+};
