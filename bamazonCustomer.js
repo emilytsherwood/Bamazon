@@ -17,21 +17,16 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
+    organized();
 });
 
-//Displaying all of the items available for sale (ids, nmes, prices and products)
-connection.query("SELECT * FROM products", function(err, rows) {
-    if (err) throw err;
-    console.log("Items for sale:\n");
-    console.log(organized(rows));
-});
 
 var startBuy = function() {
     inquirer.prompt([{
         name: "id",
         type: "list",
         message: "What is the ID number of the product you want to buy?",
-        choices: ["1003", "1004", "1300", "1303", "2001", "3000", "5002", "6161", "80002", "81134"]
+        choices: ["81135", "81136", "81137", "81138", "81139", "81140", "81141", "81142", "81143", "81144"]
     }, {
         name: "units",
         type: "input",
@@ -41,32 +36,30 @@ var startBuy = function() {
     		item_id: answer.id
     	}, function(err, result){
     		console.log(result);
+    		if (answer.units > result[0].stock_quantity) {
+    			console.log("Sorry, insufficient quantity");
+    		}
+    		
     	}); 
     });
 };
 startBuy();
 
-//Checking the inventory
-var inventory = function(id, quantity) {
-	connection.query("SELECT * FROM products WHERE item_id = ?", function(err, result) {
+
+var organized = function() {
+	connection.query ("SELECT * FROM products", function(err, items) {
 		if(err) throw err;
-
-		// for (var i = 0; i < .length; i++) {
-		// 	[i]
-		// }
-		return id;
-	});
-inventory();
-};
-
-function organized(items) {
-	for (var i = 0; i < items.length; i++) {
+		for (var i = 0; i < items.length; i++) {
+			
+		console.log("Items for sale:\n");
 		console.log("Item Id: " + items[i].item_id);
 		console.log("Product Name: " + items[i].product_name);
 		console.log("Department Name: " + items[i].department_name);
 		console.log("Price: " + items[i].price);
 		console.log("Quantity: " + items[i].stock_quantity);
 	}
-}
+	
+	});
+};
 
 
