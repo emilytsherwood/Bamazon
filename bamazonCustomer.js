@@ -39,7 +39,8 @@ var startBuy = function() {
     		if (answer.units > result[0].stock_quantity) {
     			console.log("Sorry, insufficient quantity");
     		}
-    		else (getOrder(answer.id, answer.units, result[0].stock_quantity));
+    		else (getOrder(result.id, result.units, result[0].stock_quantity));
+    			console.log("Processing your order!");
     	}); 
     });
 };
@@ -67,10 +68,9 @@ var getOrder = function(id, units, quantity) {
 		stock_quantity: quantity - units
 	},{
 		item_id: id 
-	}
-	]
-);
+	}]);
 };
+
 
 
 
