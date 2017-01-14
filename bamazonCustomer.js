@@ -40,14 +40,13 @@ var startBuy = function() {
                 console.log("Sorry, insufficient quantity");
             } else
             	connection.query("UPDATE products SET ? WHERE ?", [{
-                stock_quantity: answer - units
+                stock_quantity: result[0].stock_quantity - answer.units
               }, {
-                id: result.id
+                id: answer.id
               }], function(err, res) {
                 console.log("Processing your order!");
               });
-            	// (getOrder(answer.id, answer.units, result[0].stock_quantity));
-
+            	
         });
     });
 };
@@ -64,14 +63,7 @@ var organized = function() {
 
     });
 };
-//Function to decrease the quantity of stock as orders get processed
-// var getOrder = function(quantity) {
-//     connection.query("UPDATE products SET ? WHERE ?", [{
-//         stock_quantity: quantity - units
-//     }, {
-//         item_id: id
-//     }]);
-// };
+
 
 
 
