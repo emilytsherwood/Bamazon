@@ -20,7 +20,7 @@ connection.connect(function(err) {
     organized();
 });
 
-
+//Asking the customer what they want to buy and allowing them to input quanity and select id number
 var startBuy = function() {
     inquirer.prompt([{
         name: "id",
@@ -39,36 +39,39 @@ var startBuy = function() {
             if (answer.units > result[0].stock_quantity) {
                 console.log("Sorry, insufficient quantity");
             } else
-            	(getOrder(answer.id, answer.units, result[0].stock_quantity));
+            	connection.query("UPDATE products SET ? WHERE ?", [{
+                stock_quantity: answer - units
+              }, {
+                id: result.id
+              }], function(err, res) {
+                console.log("Processing your order!");
+              });
+            	// (getOrder(answer.id, answer.units, result[0].stock_quantity));
 
         });
     });
 };
 startBuy();
 
-
+//Function to display all the items for sale
 var organized = function() {
     connection.query("SELECT * FROM products", function(err, items) {
         if (err) throw err;
         for (var i = 0; i < items.length; i++) {
 
             console.log("Item for sale:\n" + "Id: " + items[i].item_id + " " + "Product: " + items[i].product_name + " " + "Price: $" + items[i].price);
-            // console.log("Item Id: " + items[i].item_id);
-            // console.log("Product Name: " + items[i].product_name);
-            // console.log("Price: " + items[i].price);
-            // console.log("Quantity: " + items[i].stock_quantity);
         }
 
     });
 };
-
-var getOrder = function(quantity) {
-    connection.query("UPDATE products SET ? WHERE ?", [{
-        stock_quantity: quantity - units
-    }, {
-        item_id: id
-    }]);
-};
+//Function to decrease the quantity of stock as orders get processed
+// var getOrder = function(quantity) {
+//     connection.query("UPDATE products SET ? WHERE ?", [{
+//         stock_quantity: quantity - units
+//     }, {
+//         item_id: id
+//     }]);
+// };
 
 
 
